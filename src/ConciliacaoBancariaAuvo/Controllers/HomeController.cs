@@ -72,7 +72,17 @@ namespace ConciliacaoBancariaAuvo.Controllers
         {
             var extrato = _context.Extratos.Find(id);
 
-            return Json(extrato);
+            var objetoRetorno = new
+            {
+                Id = extrato.Id,
+                Tipo = extrato.Tipo == "CREDIT" ? "CRÉDITO" : "DÉBITO",
+                DataLancamento = extrato.DataLancamento.ToString("d"),
+                Valor = extrato.Valor.ToString("N2"),
+                Descricao = extrato.Descricao,
+                Observacao = extrato.Observacao
+            };
+
+            return Json(objetoRetorno);
         }
 
 

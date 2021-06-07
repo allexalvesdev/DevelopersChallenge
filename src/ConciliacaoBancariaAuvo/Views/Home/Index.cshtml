@@ -159,6 +159,7 @@
                     <label class="txt-color-main">Descrição:</label> <span id="lblDescricao"></span>
                 </div>
                 <div>
+                    <label class="txt-color-main">Observação:</label>
                     <textarea class="form-control-range" cols="40" rows="5" id="txtObservacao"></textarea>
                 </div>
             </div>
@@ -205,37 +206,32 @@
         $(document).ready(function () {
             $('#dataInicio').on("change", filtrarDatas);
             $('#dataFim').on("change", filtrarDatas);
-        });
 
-    </script>
+            //BuscarDetalhesAjax
+            $(".btnDetalhes").click(function () {
 
-    <script type="text/javascript">
-        $(".btnDetalhes").click(function () {
+                $("#lblDataLancamento").val(" ");
+                $("#lblTipo").val(" ");
+                $("#lblValor").val(" ");
+                $("#lblDescricao").val(" ");
+                $("#txtObservacao").val(" ");
 
-            $("#lblDataLancamento").val(" ");
-            $("#lblTipo").val(" ");
-            $("#lblValor").val(" ");
-            $("#lblDescricao").val(" ");
-            $("#txtObservacao").val(" ");
+                var url = '@Url.Action("DetalhesExtrato")';
 
-    var url = '@Url.Action("DetalhesExtrato")';
+                $.getJSON(url, { id: $(this).val() }, function (result) {
 
-    $.getJSON(url, { id: $(this).val() }, function (result) {
+                        $("#lblDataLancamento").html(result.dataLancamento);
+                        $("#lblTipo").html(result.tipo);
+                        $("#lblValor").html(result.valor);
+                        $("#lblDescricao").html(result.descricao);
+                        $("#txtObservacao").val(result.observacao);
 
-            $("#lblDataLancamento").html(result.dataLancamento);
-            $("#lblTipo").html(result.tipo);
-            $("#lblValor").html(result.valor);
-            $("#lblDescricao").html(result.descricao);
-            $("#txtObservacao").val(result.observacao);
+                        $("#extratoId").val(result.id);
+                });
+            });
 
-            $("#extratoId").val(result.id);
-    });
-});
-
-    </script>
-
-    <script type="text/javascript">
-       $(".btnSalvar").click(function () {
+            //SalvarDetalhesAjax
+            $(".btnSalvar").click(function () {
 
             id = $("#extratoId").val();
             txtObs = $("#txtObservacao").val();
@@ -254,7 +250,9 @@
                    alert("Oooops. :( Houve algum erro ao atulizar.");
                }
            });
-});
+        });
+    });
+
     </script>
 
 
