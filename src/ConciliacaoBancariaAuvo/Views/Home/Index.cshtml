@@ -250,8 +250,28 @@
                    alert("Oooops. :( Houve algum erro ao atulizar.");
                }
            });
+         });
+
+            //ValidarArquivoOFX
+            $("#arquivos").change(function () {
+
+                var arquivos = document.getElementById('arquivos');
+                var erro = false;
+
+                for (var i = 0; i < arquivos.files.length; i++) {
+                    var ext = arquivos.files[i].name.substr(-4);
+                    if (ext.toLowerCase() !== ".ofx") {
+                        erro = true;
+                    }
+                }
+
+                if (erro) {
+                    alert("Arquivos inválidos");
+                    $("#arquivos").val("");
+                }
+
+            });
         });
-    });
 
     </script>
 
